@@ -16,6 +16,12 @@ public class CreditCardPointService {
     public static final String CURRENCY_UNIT = "元";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+    private CreditCardPointCalculator creditCardPointCalculator;
+
+    public CreditCardPointService(CreditCardPointCalculator creditCardPointCalculator) {
+        this.creditCardPointCalculator = creditCardPointCalculator;
+    }
+
     public List<ConsumptionRecord> transformToConsumptionRecords(String consumptionInfosStr) throws ParseException {
         List<ConsumptionRecord> consumptionRecords = new ArrayList<>();
         String[] consumptionItems = consumptionInfosStr.split(ITEM_REGEX);
@@ -30,5 +36,13 @@ public class CreditCardPointService {
             consumptionRecords.add(new ConsumptionRecord(consumptionTime, paymentPattern, CardTypeEnum.NORMAL_CARD, amount));
         }
         return consumptionRecords;
+    }
+
+    public BigDecimal getPoints(List<ConsumptionRecord> consumptionRecords) {
+        BigDecimal totalPoints = BigDecimal.ZERO;
+        for (ConsumptionRecord consumptionRecord: consumptionRecords) {
+            totalPoints = totalPoints.add(creditCardPointCalculator.getPoints(consumptionRecord));
+        }
+        return totalPoints;
     }
 }

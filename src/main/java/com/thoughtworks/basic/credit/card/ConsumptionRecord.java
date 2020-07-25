@@ -18,4 +18,8 @@ public class ConsumptionRecord {
         this.cardType = cardType;
         this.amount = amount;
     }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
 }

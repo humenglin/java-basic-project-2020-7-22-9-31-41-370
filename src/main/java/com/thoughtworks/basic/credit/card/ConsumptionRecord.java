@@ -19,6 +19,10 @@ public class ConsumptionRecord {
         this.amount = amount;
     }
 
+    public PaymentPatternEnum getPaymentPattern() {
+        return paymentPattern;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }

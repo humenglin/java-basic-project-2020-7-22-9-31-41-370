@@ -1,7 +1,8 @@
 package com.thoughtworks.basic.credit.card.enumertion;
 
 public enum PaymentPatternEnum {
-    POS_PAY("POS机消费");
+    POS_PAY("POS机消费"),
+    WECHAT_PAY("微信支付消费");
 
     private String desc;
 

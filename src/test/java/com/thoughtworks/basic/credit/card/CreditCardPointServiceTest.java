@@ -99,4 +99,22 @@ public class CreditCardPointServiceTest {
 
         Assert.assertEquals(new BigDecimal(1122), actual);
     }
+
+    @Test
+    public void should_return_1577_when_get_points_given_golden_card_consumptionRecords() throws ParseException {
+        ConsumptionRecord consumptionRecord1 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 12:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(25));
+        ConsumptionRecord consumptionRecord2 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 12:50"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(18));
+        ConsumptionRecord consumptionRecord3 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.POS_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(108));
+        ConsumptionRecord consumptionRecord4 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 08:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(10));
+        ConsumptionRecord consumptionRecord5 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 12:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(22));
+        ConsumptionRecord consumptionRecord6 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 18:50"), PaymentPatternEnum.POS_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(208));
+        ConsumptionRecord consumptionRecord7 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 20:30"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(208));
+        ConsumptionRecord consumptionRecord8 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 22:30"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(2208));
+        ConsumptionRecord consumptionRecord9 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 23:00"), PaymentPatternEnum.INSTALLMENT_PAY, CardTypeEnum.GOLD_CARD, new BigDecimal(6400));
+        List<ConsumptionRecord> consumptionRecords = Arrays.asList(consumptionRecord1, consumptionRecord2, consumptionRecord3, consumptionRecord4, consumptionRecord5, consumptionRecord6, consumptionRecord7, consumptionRecord8, consumptionRecord9);
+
+        BigDecimal actual = service.getPoints(consumptionRecords);
+
+        Assert.assertEquals(new BigDecimal(1577), actual);
+    }
 }

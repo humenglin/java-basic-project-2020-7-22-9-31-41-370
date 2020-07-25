@@ -23,6 +23,10 @@ public class ConsumptionRecord {
         return paymentPattern;
     }
 
+    public CardTypeEnum getCardType() {
+        return cardType;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }

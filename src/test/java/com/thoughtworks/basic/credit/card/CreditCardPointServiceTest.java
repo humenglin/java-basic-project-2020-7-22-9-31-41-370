@@ -117,4 +117,33 @@ public class CreditCardPointServiceTest {
 
         Assert.assertEquals(new BigDecimal(1577), actual);
     }
+
+    @Test
+    public void should_return_string_when_print_given_normal_card_consumptionRecords() throws ParseException {
+        ConsumptionRecord consumptionRecord1 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 12:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(25));
+        ConsumptionRecord consumptionRecord2 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 12:50"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(18));
+        ConsumptionRecord consumptionRecord3 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.POS_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(108));
+        ConsumptionRecord consumptionRecord4 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 08:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(10));
+        ConsumptionRecord consumptionRecord5 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 12:20"), PaymentPatternEnum.WECHAT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(22));
+        ConsumptionRecord consumptionRecord6 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 18:50"), PaymentPatternEnum.POS_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(208));
+        ConsumptionRecord consumptionRecord7 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 20:30"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(208));
+        ConsumptionRecord consumptionRecord8 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 22:30"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(2208));
+        ConsumptionRecord consumptionRecord9 = new ConsumptionRecord(simpleDateFormat.parse("2020-07-02 23:00"), PaymentPatternEnum.INSTALLMENT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(6400));
+        List<ConsumptionRecord> consumptionRecords = Arrays.asList(consumptionRecord1, consumptionRecord2, consumptionRecord3, consumptionRecord4, consumptionRecord5, consumptionRecord6, consumptionRecord7, consumptionRecord8, consumptionRecord9);
+
+        String expected = "总积分：1122\n" +
+                "2020-07-02 23:00 信用卡分期购物消费 6400元， 积分 +740\n" +
+                "2020-07-02 22:30 快捷支付消费 2208元， 积分 +320\n" +
+                "2020-07-02 20:30 快捷支付消费 208元， 积分 +30\n" +
+                "2020-07-02 18:50 POS机消费 208元， 积分 +20\n" +
+                "2020-07-02 12:20 微信支付消费 22元， 积分 +1\n" +
+                "2020-07-02 08:20 微信支付消费 10元， 积分 +0\n" +
+                "2020-07-01 18:50 POS机消费 108元， 积分 +10\n" +
+                "2020-07-01 12:50 微信支付消费 18元， 积分 +0\n" +
+                "2020-07-01 12:20 微信支付消费 25元， 积分 +1\n";
+
+        String actual = service.print(consumptionRecords);
+
+        Assert.assertEquals(expected, actual);
+    }
 }

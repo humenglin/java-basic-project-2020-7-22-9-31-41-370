@@ -12,6 +12,10 @@ public enum PaymentPatternEnum {
         this.desc = desc;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
     public static PaymentPatternEnum form(String desc) {
         for (PaymentPatternEnum paymentPattern : PaymentPatternEnum.values()) {
             if (desc.equals(paymentPattern.desc)) {

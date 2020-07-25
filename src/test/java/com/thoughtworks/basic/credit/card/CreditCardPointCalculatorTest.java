@@ -101,4 +101,34 @@ public class CreditCardPointCalculatorTest {
 
         Assert.assertEquals(new BigDecimal(320), actual);
     }
+
+    @Test
+    public void should_return_0_points_when_calculate_points_given_installment__pay_8() throws ParseException {
+        CreditCardPointCalculator calculator = new CreditCardPointCalculator();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.INSTALLMENT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(8));
+
+        BigDecimal actual = calculator.getPoints(consumptionRecord);
+
+        Assert.assertEquals(new BigDecimal(0), actual);
+    }
+
+    @Test
+    public void should_return_499_points_when_calculate_points_given_installment__pay_4999() throws ParseException {
+        CreditCardPointCalculator calculator = new CreditCardPointCalculator();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.INSTALLMENT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(4999));
+
+        BigDecimal actual = calculator.getPoints(consumptionRecord);
+
+        Assert.assertEquals(new BigDecimal(499), actual);
+    }
+
+    @Test
+    public void should_return_600_points_when_calculate_points_given_installment__pay_5000() throws ParseException {
+        CreditCardPointCalculator calculator = new CreditCardPointCalculator();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.INSTALLMENT_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(5000));
+
+        BigDecimal actual = calculator.getPoints(consumptionRecord);
+
+        Assert.assertEquals(new BigDecimal(600), actual);
+    }
 }

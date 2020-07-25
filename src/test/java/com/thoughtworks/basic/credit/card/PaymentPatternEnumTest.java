@@ -19,6 +19,13 @@ public class PaymentPatternEnumTest {
         Assert.assertEquals(PaymentPatternEnum.WECHAT_PAY, paymentPatternEnum);
     }
 
+    @Test
+    public void should_return_QUICK_PAY_given_快捷支付消费() {
+        String desc = "快捷支付消费";
+        PaymentPatternEnum paymentPatternEnum = PaymentPatternEnum.form(desc);
+        Assert.assertEquals(PaymentPatternEnum.QUICK_PAY, paymentPatternEnum);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void should_return_POS_PAY_given_other消费() {
         String desc = "other消费";

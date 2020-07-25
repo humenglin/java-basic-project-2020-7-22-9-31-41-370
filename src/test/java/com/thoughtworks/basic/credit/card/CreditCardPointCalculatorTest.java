@@ -61,4 +61,24 @@ public class CreditCardPointCalculatorTest {
 
         Assert.assertEquals(new BigDecimal(1), actual);
     }
+
+    @Test
+    public void should_return_0_points_when_calculate_points_given_quick_pay_8() throws ParseException {
+        CreditCardPointCalculator calculator = new CreditCardPointCalculator();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(8));
+
+        BigDecimal actual = calculator.getPoints(consumptionRecord);
+
+        Assert.assertEquals(new BigDecimal(0), actual);
+    }
+
+    @Test
+    public void should_return_1_points_when_calculate_points_given_quick_pay_12() throws ParseException {
+        CreditCardPointCalculator calculator = new CreditCardPointCalculator();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(simpleDateFormat.parse("2020-07-01 18:50"), PaymentPatternEnum.QUICK_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(12));
+
+        BigDecimal actual = calculator.getPoints(consumptionRecord);
+
+        Assert.assertEquals(new BigDecimal(1), actual);
+    }
 }

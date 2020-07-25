@@ -12,9 +12,12 @@ public class CreditCardPointCalculator {
 
     public BigDecimal getPoints(ConsumptionRecord consumptionRecord) {
         BigDecimal totalPoints = BigDecimal.ZERO;
+        BigDecimal perPoints = BigDecimal.ZERO;
+        BigDecimal incentivePoints = BigDecimal.ZERO;
         for (CreditCardPoint creditCardPoint: creditCardPointList) {
-            totalPoints = totalPoints.add(creditCardPoint.getPointsByPerAmount(consumptionRecord));
+            perPoints = perPoints.add(creditCardPoint.getPointsByPerAmount(consumptionRecord));
+            incentivePoints = incentivePoints.add(creditCardPoint.getIncentivePoints(consumptionRecord));
         }
-        return totalPoints;
+        return totalPoints.add(perPoints).add(incentivePoints);
     }
 }

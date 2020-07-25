@@ -14,4 +14,9 @@ public class PosPoint implements CreditCardPoint {
         }
         return BigDecimal.ZERO;
     }
+
+    @Override
+    public BigDecimal getIncentivePoints(ConsumptionRecord consumptionRecord) {
+        return BigDecimal.ZERO;
+    }
 }

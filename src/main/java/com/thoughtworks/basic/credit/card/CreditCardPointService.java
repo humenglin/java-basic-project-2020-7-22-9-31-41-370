@@ -16,9 +16,15 @@ public class CreditCardPointService {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private CreditCardPointCalculator creditCardPointCalculator;
+    private CreditCardPointPrint creditCardPointPrint;
 
     public CreditCardPointService(CreditCardPointCalculator creditCardPointCalculator) {
         this.creditCardPointCalculator = creditCardPointCalculator;
+    }
+
+    public CreditCardPointService(CreditCardPointCalculator creditCardPointCalculator, CreditCardPointPrint creditCardPointPrint) {
+        this.creditCardPointCalculator = creditCardPointCalculator;
+        this.creditCardPointPrint = creditCardPointPrint;
     }
 
     public List<ConsumptionRecord> transformToConsumptionRecords(String consumptionInfosStr) throws ParseException {
@@ -47,19 +53,17 @@ public class CreditCardPointService {
 
     public String print(List<ConsumptionRecord> consumptionRecords) {
         sortConsumptionRecords(consumptionRecords);
+        List<BigDecimal> pointList = new ArrayList<>();
 
-        StringBuilder printStr = new StringBuilder();
-        StringBuilder itemStr = new StringBuilder();
         BigDecimal totalPoints = BigDecimal.ZERO;
         for (ConsumptionRecord consumptionRecord : consumptionRecords) {
             BigDecimal itemPoint = BigDecimal.ZERO;
             itemPoint = itemPoint.add(creditCardPointCalculator.getPoints(consumptionRecord));
             totalPoints = totalPoints.add(itemPoint);
-            itemStr.append(consumptionRecord.print()).append("，").append(REGEX)
-                    .append("积分").append(REGEX).append("+").append(itemPoint).append(ITEM_REGEX);
+            pointList.add(itemPoint);
         }
 
-        return printStr.append("总积分：").append(totalPoints.toString()).append(ITEM_REGEX).append(itemStr).toString();
+        return creditCardPointPrint.print(consumptionRecords, pointList);
     }
 
     private void sortConsumptionRecords(List<ConsumptionRecord> consumptionRecords) {

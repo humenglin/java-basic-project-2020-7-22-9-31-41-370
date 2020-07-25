@@ -10,11 +10,18 @@ import java.util.Date;
 
 public class CreditCardPointService {
     public static final String REGEX = " ";
+    public static final String CURRENCY_UNIT = "元";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public ConsumptionRecord transformToConsumptionRecords(String consumptionInfosStr) throws ParseException {
-        Date consumptionTime = simpleDateFormat.parse("2020-07-01 18:40");
-        ConsumptionRecord consumptionRecord = new ConsumptionRecord(consumptionTime, PaymentPatternEnum.POS_PAY, CardTypeEnum.NORMAL_CARD, new BigDecimal(8));
+        String[] consumptionInfos = consumptionInfosStr.split(REGEX);
+
+        String dateStr = consumptionInfos[0] + REGEX + consumptionInfos[1];
+        Date consumptionTime = simpleDateFormat.parse(dateStr);
+        PaymentPatternEnum paymentPattern = PaymentPatternEnum.form(consumptionInfos[2]);
+        BigDecimal amount = new BigDecimal(consumptionInfos[3].replace(CURRENCY_UNIT, ""));
+
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord(consumptionTime, paymentPattern, CardTypeEnum.NORMAL_CARD, amount);
         return consumptionRecord;
     }
 }
